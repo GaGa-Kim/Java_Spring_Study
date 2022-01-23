@@ -1,5 +1,6 @@
 package me.gagyeong.tutorial.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -14,6 +15,7 @@ import java.util.Set;
 @NoArgsConstructor // 롬복 어노테이션 - Constructor 관련 코드 자동 생성
 public class User {
 
+    @JsonIgnore
     @Id
     @Column(name = "user_id") // 자동 증가되는 pk (primary key)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,12 +24,14 @@ public class User {
     @Column(name = "username", length = 50, unique = true) // username
     private String username;
 
+    @JsonIgnore
     @Column(name = "password", length = 100) // password
     private String password;
 
     @Column(name = "nickname", length = 50) // nickname
     private String nickname;
 
+    @JsonIgnore
     @Column(name = "activated") // 활성화 여부
     private boolean activated;
 
