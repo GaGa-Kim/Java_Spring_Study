@@ -6,7 +6,7 @@ import org.springframework.stereotype.Repository;
 import java.util.*;
 
 // @Repository
-public class MemoryMemberRepository implements MemberRepository {
+public class MemoryMemberRepository implements MemberRepository { // 메모리에 구현
 
     private static Map<Long, Member> store = new HashMap<>(); // 저장할 곳
     private static long sequence = 0L; // 키 값 생성
