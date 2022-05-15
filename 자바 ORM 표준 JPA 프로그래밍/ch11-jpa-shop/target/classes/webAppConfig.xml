@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <!-- 스프링 MVC 기능을 활성화 -->
+    <mvc:annotation-driven/>
+    <!--<context:annotation-config />-->
+    <!-- basePackages 를 포함한 하위 패키지를 검색해서
+         @Component, @Service, @Repository, @Controller
+         어노테이션이 붙어 있는 클래스들을 스프링 빈으로 자동 등록한다.
+         여기서는 웹과 관련된 jpabook, jpashop.web 패키지를 검색해서 스프링 빈으로 등록
+         이 패키지에는 컨트롤러가 있음 -->
+    <context:component-scan base-package="jpabook.jpashop.web"/>
+
+    <!-- 스프링 빈을 등록 (JSP, JSTL을 사용하도록 뷰 리졸버를 스프링 빈을 등록) -->
+    <bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="viewClass" value="org.springframework.web.servlet.view.JstlView"/>
+        <property name="prefix" value="/WEB-INF/jsp/"/>
+        <property name="suffix" value=".jsp"/>
+    </bean>
+
+    <mvc:default-servlet-handler/>
+
+    <mvc:interceptors>
+        <bean class="org.springframework.orm.jpa.support.OpenEntityManagerInViewInterceptor">
+            <property name="entityManagerFactory" ref="entityManagerFactory" />
+        </bean>
+    </mvc:interceptors>
+
+</beans>
