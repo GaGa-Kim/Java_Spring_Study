@@ -6,6 +6,7 @@
     <select id="getList" parameterType="com.example.examplespring.mvc.domain.Board" resultType="com.example.examplespring.mvc.domain.Board">
         SELECT
             B.BOARD_SEQ,
+            B.BOARD_TYPE,
             B.TITLE,
             B.CONTENTS,
             B.REG_DATE
@@ -16,6 +17,7 @@
     <select id="get" parameterType="int" resultType="com.example.examplespring.mvc.domain.Board">
         SELECT
             B.BOARD_SEQ,
+            B.BOARD_TYPE,
             B.TITLE,
             B.CONTENTS,
             B.REG_DATE
@@ -26,12 +28,14 @@
     <insert id="save" parameterType="com.example.examplespring.mvc.parameter.BoardParameter" useGeneratedKeys="true" keyProperty="boardSeq">
         INSERT INTO T_BOARD
         (
+            B.BOARD_TYPE,
             TITLE,
             CONTENTS,
             REG_DATE
         )
         VALUES
         (
+            #{boardType.code},
             #{title},
             #{contents},
             NOW()
@@ -57,6 +61,7 @@
     <update id="update" parameterType="com.example.examplespring.mvc.domain.Board">
         UPDATE T_BOARD
         SET
+            BOARD_TYPE = #{boardType.code},
             TITLE = #{title},
             CONTENTS = #{contents}
         WHERE BOARD_SEQ = #{boardSeq}
