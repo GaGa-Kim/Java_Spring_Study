@@ -1,6 +1,7 @@
 package com.example.examplespring.mvc.service;
 
 import com.example.examplespring.mvc.domain.Board;
+import com.example.examplespring.mvc.parameter.BoardSearchParameter;
 import com.example.examplespring.mvc.repository.BoardRepository;
 import com.example.examplespring.mvc.parameter.BoardParameter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,8 +25,8 @@ public class BoardService {
      * 목록 리턴
      * @return
      */
-    public List<Board> getList() {
-        return boardRepository.getList();
+    public List<Board> getList(BoardSearchParameter parameter) {
+        return boardRepository.getList(parameter);
     }
 
     /**

@@ -4,12 +4,10 @@ import com.example.examplespring.configuration.exception.BaseException;
 import com.example.examplespring.configuration.http.BaseResponse;
 import com.example.examplespring.configuration.http.BaseResponseCode;
 import com.example.examplespring.mvc.domain.Board;
+import com.example.examplespring.mvc.parameter.BoardSearchParameter;
 import com.example.examplespring.mvc.service.BoardService;
 import com.example.examplespring.mvc.parameter.BoardParameter;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.*;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -40,10 +38,10 @@ public class BoardController {
      */
     @GetMapping
     @ApiOperation(value = "목록 조회", notes = "게시글 목록 정보를 조회할 수 있습니다.")
-    public BaseResponse<List<Board>> getList() {
+    public BaseResponse<List<Board>> getList(@ApiParam BoardSearchParameter parameter) {
         // 로그 남기기
         logger.info("getList");
-        return new BaseResponse<List<Board>>(boardService.getList());
+        return new BaseResponse<List<Board>>(boardService.getList(parameter));
     }
 
     /**
