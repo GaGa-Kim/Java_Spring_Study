@@ -1,5 +1,6 @@
 package com.example.examplespring.mvc.service;
 
+import com.example.examplespring.framework.data.domain.PageRequestParameter;
 import com.example.examplespring.mvc.domain.Board;
 import com.example.examplespring.mvc.parameter.BoardSearchParameter;
 import com.example.examplespring.mvc.repository.BoardRepository;
@@ -25,8 +26,8 @@ public class BoardService {
      * 목록 리턴
      * @return
      */
-    public List<Board> getList(BoardSearchParameter parameter) {
-        return boardRepository.getList(parameter);
+    public List<Board> getList(PageRequestParameter<BoardSearchParameter> pageRequestParameter) {
+        return boardRepository.getList(pageRequestParameter);
     }
 
     /**

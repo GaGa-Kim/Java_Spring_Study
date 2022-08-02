@@ -3,7 +3,7 @@
 
 <mapper namespace="com.example.examplespring.mvc.repository.BoardRepository">
 
-    <select id="getList" parameterType="com.example.examplespring.mvc.parameter.BoardSearchParameter" resultType="com.example.examplespring.mvc.domain.Board">
+    <select id="getList" parameterType="com.example.examplespring.framework.data.domain.PageRequestParameter" resultType="com.example.examplespring.mvc.domain.Board">
         SELECT
             B.BOARD_SEQ,
             B.BOARD_TYPE,
@@ -13,11 +13,11 @@
         FROM T_BOARD B
         <where>
             <!-- 키워드 검색 -->
-            <if test="@org.apache.commons.lang3.StringUtils@isNotEmpty(keyword)">
+            <if test="@org.apache.commons.lang3.StringUtils@isNotEmpty(parameter.keyword)">
                 AND B.TITLE LIKE CONCAT('%', #{keyword}, '%')
             </if>
             <!-- 게시판 종류 배열 검색 -->
-            <if test="@org.apache.commons.lang3.ObjectUtils@isNotEmpty(boardTypes)">
+            <if test="@org.apache.commons.lang3.ObjectUtils@isNotEmpty(parameter.boardTypes)">
                 AND B.BOARD_TYPE IN (
                 <foreach collection="boardTypes" item="value" separator=",">
                     #{value}
@@ -25,6 +25,8 @@
             </if>
         </where>
         ORDER BY B.REG_DATE DESC
+        <!-- 페이징 (예 : 1 페이지 20개 가져오기) -->
+        LIMIT #{pageRequest.limit}, #{pageRequest.offset}
     </select>
 
     <select id="get" parameterType="int" resultType="com.example.examplespring.mvc.domain.Board">

@@ -3,6 +3,8 @@ package com.example.examplespring.mvc.controller;
 import com.example.examplespring.configuration.exception.BaseException;
 import com.example.examplespring.configuration.http.BaseResponse;
 import com.example.examplespring.configuration.http.BaseResponseCode;
+import com.example.examplespring.framework.data.domain.MySQLPageRequest;
+import com.example.examplespring.framework.data.domain.PageRequestParameter;
 import com.example.examplespring.mvc.domain.Board;
 import com.example.examplespring.mvc.parameter.BoardSearchParameter;
 import com.example.examplespring.mvc.service.BoardService;
@@ -38,10 +40,13 @@ public class BoardController {
      */
     @GetMapping
     @ApiOperation(value = "목록 조회", notes = "게시글 목록 정보를 조회할 수 있습니다.")
-    public BaseResponse<List<Board>> getList(@ApiParam BoardSearchParameter parameter) {
+    public BaseResponse<List<Board>> getList(
+            @ApiParam BoardSearchParameter parameter,
+            @ApiParam MySQLPageRequest pageRequest) {
         // 로그 남기기
-        logger.info("getList");
-        return new BaseResponse<List<Board>>(boardService.getList(parameter));
+        logger.info("pageRequest : {}", pageRequest);
+        PageRequestParameter<BoardSearchParameter> pageRequestParameter = new PageRequestParameter<BoardSearchParameter>(pageRequest, parameter);
+        return new BaseResponse<List<Board>>(boardService.getList(pageRequestParameter));
     }
 
     /**
