@@ -5,6 +5,7 @@ import com.example.examplespring.configuration.http.BaseResponse;
 import com.example.examplespring.configuration.http.BaseResponseCode;
 import com.example.examplespring.framework.data.domain.MySQLPageRequest;
 import com.example.examplespring.framework.data.domain.PageRequestParameter;
+import com.example.examplespring.framework.web.bind.annotation.RequestConfig;
 import com.example.examplespring.mvc.domain.Board;
 import com.example.examplespring.mvc.parameter.BoardSearchParameter;
 import com.example.examplespring.mvc.service.BoardService;
@@ -73,6 +74,7 @@ public class BoardController {
      * @param parameter
      */
     @PutMapping
+    @RequestConfig
     @ApiOperation(value = "등록 / 수정 처리", notes = "신규 게시물 저장 및 기존 게시물 업데이트가 가능합니다.")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "boardSeq", value = "게시물 번호", example = "1"),
@@ -149,6 +151,7 @@ public class BoardController {
      * @param boardSeq
      */
     @DeleteMapping("/{boardSeq}")
+    @RequestConfig
     @ApiOperation(value = "삭제 처리", notes = "게시물 번호에 해당하는 정보를 삭제합니다.")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "boardSeq", value = "게시물 번호", example = "1")
