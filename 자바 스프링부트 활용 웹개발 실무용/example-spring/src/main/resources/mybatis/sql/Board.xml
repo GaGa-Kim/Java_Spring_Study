@@ -3,13 +3,18 @@
 
 <mapper namespace="com.example.examplespring.mvc.repository.BoardRepository">
 
-    <select id="getList" parameterType="com.example.examplespring.framework.data.domain.PageRequestParameter" resultType="com.example.examplespring.mvc.domain.Board">
+    <resultMap id="getListResultMap" type="com.example.examplespring.mvc.domain.Board">
+        <result column="DEL_YN" property="delYn" typeHandler="com.example.examplespring.configuration.mybatis.typehandler.StringValueBooleanTypeHandler"/>
+    </resultMap>
+
+    <select id="getList" parameterType="com.example.examplespring.framework.data.domain.PageRequestParameter" resultMap="getListResultMap">
         SELECT
             B.BOARD_SEQ,
             B.BOARD_TYPE,
             B.TITLE,
             B.CONTENTS,
-            B.REG_DATE
+            B.REG_DATE,
+            B.DEL_YN
         FROM T_BOARD B
         <where>
             <!-- 키워드 검색 -->
@@ -46,14 +51,16 @@
             B.BOARD_TYPE,
             TITLE,
             CONTENTS,
-            REG_DATE
+            REG_DATE,
+            DEL_YN
         )
         VALUES
         (
             #{boardType.code},
             #{title},
             #{contents},
-            NOW()
+            NOW(),
+            #{delYn, typeHandler=com.example.examplespring.configuration.mybatis.typehandler.StringValueBooleanTypeHandler}
         )
     </insert>
 

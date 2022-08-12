@@ -74,7 +74,7 @@ public class BoardController {
      * @param parameter
      */
     @PutMapping
-    @RequestConfig
+    @RequestConfig(loginCheck = false)
     @ApiOperation(value = "등록 / 수정 처리", notes = "신규 게시물 저장 및 기존 게시물 업데이트가 가능합니다.")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "boardSeq", value = "게시물 번호", example = "1"),
