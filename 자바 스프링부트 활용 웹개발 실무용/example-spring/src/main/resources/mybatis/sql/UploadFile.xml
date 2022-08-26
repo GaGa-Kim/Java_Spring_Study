@@ -3,6 +3,19 @@
 
 <mapper namespace="com.example.examplespring.mvc.repository.UploadFileRepository">
 
+    <select id="get" parameterType="int" resultType="com.example.examplespring.mvc.domain.UploadFile">
+        SELECT
+            PATHNAME,
+            FILENAME,
+            ORIGINAL_FILENAME,
+            SIZE,
+            CONTENT_TYPE,
+            RESOURCE_PATHNAME,
+            REG_DATE
+        FROM T_UPLOAD_FILE UF
+        WHERE UF.UPLOAD_FILE_SEQ = #{uploadFileSeq}
+    </select>
+
     <insert id="save" parameterType="com.example.examplespring.mvc.parameter.UploadFileParameter">
         INSERT INTO T_UPLOAD_FILE
         (
