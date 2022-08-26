@@ -30,6 +30,7 @@ public class GlobalConfig {
     private ResourceLoader resourceLoader;
 
     private String uploadFilePath;
+    private String uploadResourcePath;
     private String schedulerCronExample;
 
     private boolean local;
@@ -51,6 +52,7 @@ public class GlobalConfig {
 
             // 프로퍼티 파일에 있는 uploadFile.path가 변수에 저장됨
             this.uploadFilePath = properties.getProperty("uploadFile.path");
+            this.uploadResourcePath = properties.getProperty("uploadFile.resourcePath");
             this.schedulerCronExample = properties.getProperty("scheduler.cron.example1");
             // local로 서버가 올라올 경우 /home/upload
             this.local = activeProfile.equals("local");
@@ -66,6 +68,10 @@ public class GlobalConfig {
 
     public String getUploadFilePath() {
         return uploadFilePath;
+    }
+
+    public String getUploadResourcePath() {
+        return uploadResourcePath;
     }
 
     public String getSchedulerCronExample() {
