@@ -87,7 +87,7 @@ public class ExampleParameterController {
 
     /* JSON을 Class로 받기
        http://localhost:8080/example/parameter/example6/form
-    @PostMapping("/example7/saveData")
+    @PostMapping("/example6/saveData")
     @ResponseBody
     public Map<String, Object> example6(@RequestBody ExampleRequestBodyUser requestBody) {
         Map<String, Object> resultMap = new HashMap<String, Object>();
