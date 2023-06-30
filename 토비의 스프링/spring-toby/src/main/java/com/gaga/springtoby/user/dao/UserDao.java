@@ -14,8 +14,7 @@ public class UserDao {
     public void add(User user) throws ClassNotFoundException, SQLException {
 
         // DB 연결을 위한 Connection을 가져온다.
-        Class.forName("com.mysql.jdbc.Driver");
-        Connection c = DriverManager.getConnection("jdbc:mysql://localhost/toby", "toby", "gaga");
+        Connection c = getConnection();
 
         // SQL을 담은 Statement를 만든다.
         PreparedStatement ps = c.prepareStatement("insert into users(id, name, password) values(?,?,?)");
@@ -33,8 +32,7 @@ public class UserDao {
     /* 아이디를 가지고 사용자 정보 읽어오기 */
     public User get(String id) throws ClassNotFoundException, SQLException {
 
-        Class.forName("com.mysql.jdbc.Driver");
-        Connection c = DriverManager.getConnection("jdbc:mysql://localhost/toby", "toby", "gaga");
+        Connection c = getConnection();
 
         PreparedStatement ps = c.prepareStatement("select * from users where id = ?");
         ps.setString(1, id);
@@ -53,5 +51,12 @@ public class UserDao {
 
         return user;
 
+    }
+
+    /* getConnection() 메소드를 추출해서 중복 제거 */
+    private Connection getConnection() throws ClassNotFoundException, SQLException {
+        Class.forName("com.mysql.jdbc.Driver");
+        Connection c = DriverManager.getConnection("jdbc:mysql://localhost/toby", "toby", "gaga");
+        return c;
     }
 }
