@@ -1,5 +1,6 @@
 package com.gaga.springtoby;
 
+import com.gaga.springtoby.user.dao.DUserDao;
 import com.gaga.springtoby.user.dao.UserDao;
 import com.gaga.springtoby.user.domain.User;
 import org.springframework.boot.SpringApplication;
@@ -16,7 +17,7 @@ public class SpringTobyApplication {
 	public static void main(String[] args) throws SQLException, ClassNotFoundException {
 
 		// UserDao 오브젝트를 생성한다.
-		UserDao userDao = new UserDao();
+		UserDao userDao = new DUserDao();
 
 		// 프로퍼티에 값 넣는다.
 		User user = new User();

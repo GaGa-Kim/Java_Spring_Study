@@ -7,7 +7,7 @@ import java.sql.*;
 /**
  * JDBC를 이용한 등록과 조회 기능이 있는 UserDao 클래스
  */
-public class UserDao {
+public abstract class UserDao {
 
     /* 새로운 사용자를 생성 */
     // JDBC API가 만들어내는 예외를 잡아서 직접 처리하거나, 메소드에 throws를 선언해서 예외가 발생하면 메소드 밖으로 던지게 한다.
@@ -53,10 +53,6 @@ public class UserDao {
 
     }
 
-    /* getConnection() 메소드를 추출해서 중복 제거 */
-    private Connection getConnection() throws ClassNotFoundException, SQLException {
-        Class.forName("com.mysql.jdbc.Driver");
-        Connection c = DriverManager.getConnection("jdbc:mysql://localhost/toby", "toby", "gaga");
-        return c;
-    }
+    /* 상속을 통한 확장 방법 제공 */
+    public abstract Connection getConnection() throws ClassNotFoundException, SQLException;
 }
