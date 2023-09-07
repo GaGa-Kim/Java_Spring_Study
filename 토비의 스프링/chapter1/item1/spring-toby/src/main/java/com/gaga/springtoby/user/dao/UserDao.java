@@ -7,21 +7,15 @@ import java.sql.*;
 /**
  * JDBC를 이용한 등록과 조회 기능이 있는 UserDao 클래스
  */
-public abstract class UserDao {
-
-    /* 독립된 SimpleConnectionMaker를 사용 */
-    private SimpleConnectionMaker simpleConnectionMaker;
-
-    public UserDao() {
-        simpleConnectionMaker = new SimpleConnectionMaker();
-    }
+public class UserDao {
 
     /* 새로운 사용자를 생성 */
     // JDBC API가 만들어내는 예외를 잡아서 직접 처리하거나, 메소드에 throws를 선언해서 예외가 발생하면 메소드 밖으로 던지게 한다.
     public void add(User user) throws ClassNotFoundException, SQLException {
 
         // DB 연결을 위한 Connection을 가져온다.
-        Connection c = simpleConnectionMaker.;
+        Class.forName("com.mysql.jdbc.Driver");
+        Connection c = DriverManager.getConnection("jdbc:mysql://localhost/toby", "toby", "gaga");
 
         // SQL을 담은 Statement를 만든다.
         PreparedStatement ps = c.prepareStatement("insert into users(id, name, password) values(?,?,?)");
@@ -39,7 +33,8 @@ public abstract class UserDao {
     /* 아이디를 가지고 사용자 정보 읽어오기 */
     public User get(String id) throws ClassNotFoundException, SQLException {
 
-        Connection c = getConnection();
+        Class.forName("com.mysql.jdbc.Driver");
+        Connection c = DriverManager.getConnection("jdbc:mysql://localhost/toby", "toby", "gaga");
 
         PreparedStatement ps = c.prepareStatement("select * from users where id = ?");
         ps.setString(1, id);
