@@ -1,4 +1,4 @@
-package chapter2.item5;
+package chapter2.item6;
 
 import java.util.regex.Pattern;
 
