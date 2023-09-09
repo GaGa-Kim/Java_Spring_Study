@@ -13,7 +13,9 @@ public class CountingDaoFactory {
     public UserDao userDao() {
         // UserDao 오브젝트를 생성한다. 그리고 사용할 ConnectionMaker 타입의 오브젝트를 제공한다.
         // 결국 두 오브젝트 사이의 의존관계 설정 효과
-        return new UserDao(connectionMaker());
+        UserDao useDao = new UserDao();
+        useDao.setConnectionMaker(connectionMaker());
+        return useDao;
     }
 
     @Bean

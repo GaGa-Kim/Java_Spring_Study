@@ -12,6 +12,7 @@ public class UserDao {
     // 초기에 설정하면 사용 중에는 바뀌지 않는 읽기전용 인스턴스 변수
     private ConnectionMaker connectionMaker;
 
+    /* 수정자 메소드를 위해 기존 생성자를 제거한다.
     // 의존관계 검색
     public UserDao() {
         AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(DaoFactory.class);
@@ -22,6 +23,7 @@ public class UserDao {
     public UserDao(ConnectionMaker connectionMaker) {
         this.connectionMaker = connectionMaker;
     }
+     */
 
     // 수정자 메소드를 이용한 의존관계 주입 (한 번에 한 개의 파라미터만 가능)
     public void setConnectionMaker(ConnectionMaker connectionMaker) {
