@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+    <!-- 의존하는 오브젝트가 없으므로 빈의 이름, 클래스만 필요하다. -->
+    <!-- <bean id="connectionMaker" class="com.gaga.springtoby.user.dao.DConnectionMaker" /> -->
+    <!-- 의존하는 클래스가 있으므로 빈의 이름, 클래스, 의존 오브젝트가 필요하다. -->
+    <!-- <bean id="userDao" class="com.gaga.springtoby.user.dao.UserDao"> -->
+        <!-- 수정자 메소드의 경우, 의존관계 정보를 만들 때, 프로퍼티가 된다. -->
+        <!-- <property name="connectionMaker" ref="connectionMaker" /> -->
+    <!-- </bean> -->
+    <bean id="dataSource" class="org.springframework.jdbc.datasource.SimpleDriverDataSource">
+        <property name="driverClass" value="com.mysql.jdbc.Driver" />
+        <property name="url" value="jdbc:mysql://localhost/toby" />
+        <property name="username" value="toby" />
+        <property name="password" value="gaga" />
+    </bean>
+    <bean id="userDao" class="com.gaga.springtoby.user.dao.UserDao">
+        <property name="dataSource" ref="dataSource" />
+    </bean>
+</beans>
