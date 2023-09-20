@@ -12,7 +12,7 @@ public class ColorPoint extends Point {
         this.color = color;
     }
 
-    // 대칭성 위배!
+    // 첫 번째 equals 메서드 - 대칭성 위배!
     // 단순히 상속하는 클래스의 equals를 사용할 경우, 색상 정보는 무시한 채 비교를 수행하게 됨
     @Override
     public boolean equals(Object o) {
@@ -21,7 +21,7 @@ public class ColorPoint extends Point {
         return super.equals(o) && ((ColorPoint) o).color == color;
     }
 
-    // // 추이성 위배!
+    // // 두 번째 equals 메서드 - 추이성 위배!
     // // 비교를 할 때 색상을 무시하도록 한다면
     // @Override public boolean equals(Object o) {
     // if (!(o instanceof Point))
