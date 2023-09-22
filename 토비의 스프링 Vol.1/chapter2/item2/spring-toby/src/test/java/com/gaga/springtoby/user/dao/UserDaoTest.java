@@ -1,6 +1,5 @@
 package com.gaga.springtoby.user.dao;
 
-
 import com.gaga.springtoby.user.domain.User;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.GenericXmlApplicationContext;
