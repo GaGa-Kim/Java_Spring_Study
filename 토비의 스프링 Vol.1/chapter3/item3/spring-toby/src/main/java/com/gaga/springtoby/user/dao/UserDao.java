@@ -68,20 +68,7 @@ public class UserDao {
         // 컨텍스트를 호출하여 전략 오브젝트를 전달한다.
         jdbcContextWithStatementStrategy(st);
         */
-
-        // add() 메소드 내부에 선언된 익명 클래스이다.
-        jdbcContextWithStatementStrategy(new StatementStrategy() {
-            @Override
-            public PreparedStatement makePreparedStatement(Connection c) throws SQLException {
-                PreparedStatement ps = c.prepareStatement("insert into users(id, name, password) values(?,?,?)");
-                ps.setString(1, user.getId());
-                ps.setString(2, user.getName());
-                ps.setString(3, user.getPassword());
-
-                return ps;
-            }
-        });
-
+        
         // add() 메소드 내부에 선언된 익명 클래스이다.
         jdbcContextWithStatementStrategy(new StatementStrategy() {
             @Override
