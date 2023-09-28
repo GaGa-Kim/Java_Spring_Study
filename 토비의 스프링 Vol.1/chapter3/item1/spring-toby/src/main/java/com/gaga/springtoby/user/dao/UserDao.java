@@ -120,6 +120,12 @@ public class UserDao {
         } catch (SQLException e) {
             throw e;
         } finally {
+            if (rs != null) {
+                try{
+                    rs.close();
+                } catch (SQLException e) {
+                }
+            }
             if (ps != null) {
                 try {
                     ps.close();
