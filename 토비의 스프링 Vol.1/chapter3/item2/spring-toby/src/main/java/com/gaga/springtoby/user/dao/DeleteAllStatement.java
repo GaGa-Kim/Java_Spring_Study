@@ -5,7 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 /**
- * makeStatement()를 구현한 StatementStrategy 전략 클래스
+ * deleteAll 메소드의 기능을 구현한 StatementStrategy 전략 클래스
  */
 public class DeleteAllStatement implements StatementStrategy {
 
