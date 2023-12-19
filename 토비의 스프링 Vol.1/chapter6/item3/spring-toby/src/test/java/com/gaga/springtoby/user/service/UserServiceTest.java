@@ -311,7 +311,7 @@ public class UserServiceTest {
 		// TestUserService는 업그레이드 작업 중에 예외가 발생해야 한다.
 		try {
 			// 트랜잭션 기능을 분리한 오브젝트를 통해 예외 발생용 TestUserService가 호출되게 해야 한다.
-			txUserService.upgradeLevels(); // UserService (UserServiceTx) -> UserServiceImpl
+			txUserService.upgradeLevels(); // UserService (TxProxyFactoryBean) -> UserServiceImpl
 			fail("TestUserServiceException expected");
 		}
 		// TestUserService가 던져주는 예외를 잡아서 계속 진행되도록 한다.
