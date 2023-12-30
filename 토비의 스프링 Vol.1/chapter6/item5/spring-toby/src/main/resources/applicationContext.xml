@@ -21,9 +21,9 @@
     <bean id="transactionAdvice" class="com.gaga.springtoby.user.service.TransactionAdvice">
         <property name="transactionManager" ref="transactionManager"/>
     </bean>
-    <!-- 자동 프록시 생성기인 DefaultAdvisorAutoProxyCreator 등록 -->
+    <!-- 자동 프록시 생성기인 DefaultAdvisorAutoProxyCreator 등록 >
     <bean class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator"/>
-    <!-- 직접 만든 포인트컷 빈 설정 제거 >
+    < 직접 만든 포인트컷 빈 설정 제거 >
     <bean id="transactionPointcut" class="org.springframework.aop.support.NameMatchMethodPointcut">
     <bean id="transactionPointcut" class="com.gaga.springtoby.proxy.NameMatchClassMethodPointcut">
         <property name="mappedClassName" value="*NotServiceImpl"/>
