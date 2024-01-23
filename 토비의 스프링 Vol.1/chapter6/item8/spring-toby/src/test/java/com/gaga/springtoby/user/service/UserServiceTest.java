@@ -38,7 +38,6 @@ import com.gaga.springtoby.user.domain.User;
  * UserServiceTest 클래스
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@Transactional
 // 롤백 여부에 대한 기본 설정과 트랜잭션 매니저 빈을 지정하는데 사용할 수 있다.
 // 디폴트 트랜잭션 매니저 아이디는 관례를 따라서 transactionManager로 되어 있다.
 // 하지만 이는 더 이상 사용되지 않으므로 클래스 수준에서 @Rollback 애노테이션을 사용하도록 함
