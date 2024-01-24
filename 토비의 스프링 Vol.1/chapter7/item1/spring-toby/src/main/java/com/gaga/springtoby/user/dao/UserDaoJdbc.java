@@ -1,0 +1,170 @@
+package com.gaga.springtoby.user.dao;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.List;
+
+import javax.sql.DataSource;
+
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
+
+import com.gaga.springtoby.user.domain.Level;
+import com.gaga.springtoby.user.domain.User;
+import com.gaga.springtoby.user.sqlService.SqlService;
+
+/**
+ * JdbcTemplate를 적용한 UserDao 구현 클래스
+ */
+public class UserDaoJdbc implements UserDao {
+	/* 개별 SQL 프로퍼티 방식
+	private String sqlAdd;
+
+	// add() 메소드를 위한 SQL 필드 초기화
+	public void setSqlAdd(String sqlAdd) {
+		this.sqlAdd = sqlAdd;
+	}
+
+	private String sqlUpdate;
+
+	// update() 메소드를 위한 SQL 필드 초기화
+	public void setSqlUpdate(String sqlUpdate) {
+		this.sqlUpdate = sqlUpdate;
+	}
+
+	private String sqlGet;
+
+	// get() 메소드를 위한 SQL 필드 초기화
+	public void setSqlGet(String sqlGet) {
+		this.sqlGet = sqlGet;
+	}
+
+	private String sqlGetAll;
+
+	// getAll() 메소드를 위한 SQL 필드 초기화
+	public void setSqlGetAll(String sqlGetAll) {
+		this.sqlGetAll = sqlGetAll;
+	}
+
+	private String sqlDeleteAll;
+
+	// deleteAll() 메소드를 위한 SQL 필드 초기화
+	public void setSqlDeleteAll(String sqlDeleteAll) {
+		this.sqlDeleteAll = sqlDeleteAll;
+	}
+
+	private String sqlGetCount;
+
+	// getCount() 메소드를 위한 SQL 필드 초기화
+	public void setSqlGetCount(String sqlGetCount) {
+		this.sqlGetCount = sqlGetCount;
+	}
+	 */
+
+	/* 맵 타입의 SQL 정보 프로퍼티
+	private Map<String, String> sqlMap;
+
+	public void setSqlMap(Map<String, String> sqlMap) {
+		this.sqlMap = sqlMap;
+	}
+	 */
+
+	// SqlService 프로퍼티 추가
+	private SqlService sqlService;
+
+	public void setSqlService(SqlService sqlService) {
+		this.sqlService = sqlService;
+	}
+
+	private JdbcTemplate jdbcTemplate;
+
+	// JdbcTemplate 초기화
+	public void setDataSource(DataSource dataSource) {
+		// DataSource 오브젝트는 JdbcTemplate을 만든 후에는 사용하지 않으니 저장해두지 않아도 된다.
+		this.jdbcTemplate = new JdbcTemplate(dataSource);
+	}
+
+	// 재사용 가능하도록 독립시킨 RowMapper
+	private RowMapper<User> userMapper = new RowMapper<User>() {
+		// ResultSet한 로우의 결과를 오브젝트에 매핑해주는 RowMapper
+		@Override
+		public User mapRow(ResultSet rs, int rowNum) throws SQLException {
+			User user = new User();
+			user.setId(rs.getString("id"));
+			user.setEmail(rs.getString("email"));
+			user.setName(rs.getString("name"));
+			user.setPassword(rs.getString("password"));
+			user.setLevel(Level.valueOf(rs.getInt("level")));
+			user.setLogin(rs.getInt("login"));
+			user.setRecommend(rs.getInt("recommend"));
+			return user;
+		}
+	};
+
+	/* 새로운 사용자를 생성 */
+	// JdbcTemplate의 update() 메소드를 적용
+	// 스프링의 JdbcTemplate은 예외처리 전략을 따르고 있으므로
+	// JdbcTemplate 템플릿과 콜백 안에서 발생하는 모든 SQLException을 런타임 예외인 DataAccessException으로 포장해서 던져준다.
+	@Override
+	public void add(final User user) {
+		this.jdbcTemplate.update(
+			// sqlAdd,
+			// this.sqlMap.get("add"),
+			this.sqlService.getSql("userAdd"),
+			user.getId(), user.getEmail(), user.getName(), user.getPassword(),
+			user.getLevel().intValue(), user.getLogin(), user.getRecommend());
+	}
+
+	/* 사용자 정보 수정 */
+	// JdbcTemplate의 update() 메소드를 적용
+	@Override
+	public void update(User user) {
+		this.jdbcTemplate.update(
+			// sqlUpdate,
+			// this.sqlMap.get("update"),
+			this.sqlService.getSql("userUpdate"),
+			user.getEmail(), user.getName(), user.getPassword(),
+			user.getLevel().intValue(), user.getLogin(), user.getRecommend(),
+			user.getId());
+	}
+
+	/* 아이디를 가지고 사용자 정보 읽어오기 */
+	// JdbcTemplate의 queryForObject() 메소드를 적용
+	@Override
+	public User get(String id) {
+		return this.jdbcTemplate.queryForObject(// sqlGet,
+			// this.sqlMap.get("get"),
+			this.sqlService.getSql("userGet"),
+			new Object[] {id}, this.userMapper);
+	}
+
+	/* 모든 사용자 정보 읽어오기 */
+	// JdbcTemplate의 query() 메소드를 적용
+	@Override
+	public List<User> getAll() {
+		return this.jdbcTemplate.query(// sqlGetAll,
+			// this.sqlMap.get("getAll"),
+			this.sqlService.getSql("userGetAll"),
+			this.userMapper);
+	}
+
+	/* 모든 사용자 삭제하기 */
+	// JdbcTemplate의 update() 메소드를 적용
+	@Override
+	public void deleteAll() {
+		this.jdbcTemplate.update(// sqlDeleteAll,
+			// this.sqlMap.get("deleteAll")
+			this.sqlService.getSql("userDeleteAll"));
+	}
+
+	/* 사용자 테이블의 레코드 개수 읽어오기 */
+	// JdbcTemplate의 queryForInt() 메소드를 적용 (Deprecated)
+	// JdbcTemplate의 queryForObject() 메소드를 적용
+	@Override
+	public int getCount() {
+		// return this.jdbcTemplate.queryForInt("select count(*) from users");
+		return this.jdbcTemplate.queryForObject(// sqlGetCount,
+			// this.sqlMap.get("getCount"),
+			this.sqlService.getSql("userGetCount"), Integer.class);
+	}
+}
