@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+                           http://www.springframework.org/schema/context
+                           http://www.springframework.org/schema/context/spring-context-3.0.xsd
+                           http://www.springframework.org/schema/tx
+                           http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+                           http://www.springframework.org/schema/jdbc
+                           http://www.springframework.org/schema/jdbc/spring-jdbc-3.2.xsd">
+    <!-- 트랜잭션 애노테이션 사용을 위한 설정 -->
+    <tx:annotation-driven/>
+    <context:annotation-config/>
+    <!-- tx 스키마의 태그를 이용한 트랜잭션 속성 정의 -->
+    <bean id="userService" class="com.gaga.springtoby.user.service.UserServiceImpl">
+        <property name="userDao" ref="userDao"/>
+        <property name="mailSender" ref="mailSender"/>
+    </bean>
+    <!-- 테스트용 UserService의 등록 -->
+    <bean id="testUserService"
+          class="com.gaga.springtoby.user.service.UserServiceTest$TestUserService"
+          parent="userService"/>
+    <bean id="userDao" class="com.gaga.springtoby.user.dao.UserDaoJdbc">
+        <property name="dataSource" ref="dataSource"/>
+        <property name="sqlService" ref="sqlService"/>
+    </bean>
+    <!-- OXM을 적용한 SqlService 설정 -->
+    <bean id="sqlService" class="com.gaga.springtoby.user.sqlService.OxmSqlService">
+        <property name="unmarshaller" ref="unmarshaller"/>
+        <!-- 디폴트로 준비된 HashMapSqlRegistry 대신 외부에 따라 정의한 SQL 레지스트리를 사용하도록 프로퍼티를 명시적으로 지정한다. -->
+        <property name="sqlRegistry" ref="sqlRegistry"/>
+    </bean>
+    <bean id="unmarshaller" class="org.springframework.oxm.jaxb.Jaxb2Marshaller">
+        <property name="contextPath" value="com.gaga.springtoby.user.sqlService.jaxb"/>
+    </bean>
+    <bean id="sqlRegistry" class="com.gaga.springtoby.user.sqlService.EmbeddedDbSqlRegistry">
+        <property name="dataSource" ref="embeddedDatabase"/>
+    </bean>
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+    <bean id="mailSender" class="com.gaga.springtoby.user.service.DummyMailSender"/>
+    <bean id="dataSource" class="org.springframework.jdbc.datasource.SimpleDriverDataSource">
+        <property name="driverClass" value="com.mysql.jdbc.Driver"/>
+        <property name="url" value="jdbc:mysql://localhost/toby"/>
+        <property name="username" value="toby"/>
+        <property name="password" value="gaga"/>
+    </bean>
+    <jdbc:embedded-database id="embeddedDatabase" type="HSQL">
+        <jdbc:script location="classpath:sqlRegistrySchema.sql"/>
+    </jdbc:embedded-database>
+</beans>
